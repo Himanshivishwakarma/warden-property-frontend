@@ -9,7 +9,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ value, onChange, onSearch }: SearchBarProps) {
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSearch();
   };

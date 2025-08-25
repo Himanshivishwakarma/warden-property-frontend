@@ -2,9 +2,17 @@
 
 import React from 'react';
 
+interface WeatherFilters {
+  temperatureMin?: number;
+  temperatureMax?: number;
+  humidityMin?: number;
+  humidityMax?: number;
+  weatherCondition?: string;
+}
+
 interface WeatherFiltersProps {
-  filters: any;
-  onChange: (filters: any) => void;
+  filters: WeatherFilters;
+  onChange: (filters: WeatherFilters) => void;
 }
 
 export default function WeatherFiltersComponent({ filters, onChange }: WeatherFiltersProps) {

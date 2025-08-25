@@ -5,10 +5,36 @@ import SearchBar from '@/components/SearchBar';
 import WeatherFiltersComponent from '@/components/WeatherFilters';
 import { useEffect, useState } from 'react';
 
+interface Weather {
+  temperature: number;
+  humidity: number;
+  weatherCode: number;
+}
+
+interface Property {
+  id: string;
+  name: string;
+  city: string;
+  state: string;
+  country: string;
+  lat?: number;
+  lng?: number;
+  weather?: Weather;
+  isActive: boolean;
+}
+
+interface WeatherFilters {
+  temperatureMin?: number;
+  temperatureMax?: number;
+  humidityMin?: number;
+  humidityMax?: number;
+  weatherCondition?: string;
+}
+
 export default function Home() {
-  const [properties, setProperties] = useState([]);
+  const [properties, setProperties] = useState<Property[]>([]);
   const [searchText, setSearchText] = useState('');
-  const [filters, setFilters] = useState<any>({});
+  const [filters, setFilters] = useState<WeatherFilters>({});
   const [loading, setLoading] = useState(false);
 
   const fetchProperties = async (currentFilters = filters) => {
@@ -62,7 +88,7 @@ export default function Home() {
           <div className="text-center py-8">Loading...</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(properties || []).map((property: any) => (
+            {(properties || []).map((property: Property) => (
               <PropertyCard key={property.id} property={property} />
             ))}
           </div>

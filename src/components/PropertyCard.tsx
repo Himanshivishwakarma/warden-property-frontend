@@ -2,8 +2,25 @@
 
 import React from 'react';
 
+interface Weather {
+  temperature: number;
+  humidity: number;
+  weatherCode: number;
+}
+
+interface Property {
+  name: string;
+  city: string;
+  state: string;
+  country: string;
+  lat?: number;
+  lng?: number;
+  weather?: Weather;
+  isActive: boolean;
+}
+
 interface PropertyCardProps {
-  property: any;
+  property: Property;
 }
 
 export default function PropertyCard({ property }: PropertyCardProps) {
