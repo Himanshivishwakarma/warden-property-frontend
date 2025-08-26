@@ -3,7 +3,7 @@
 import PropertyCard from '@/components/PropertyCard';
 import SearchBar from '@/components/SearchBar';
 import WeatherFiltersComponent from '@/components/WeatherFilters';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 
 interface Weather {
   temperature: number;
@@ -37,6 +37,7 @@ export default function Home() {
   const [filters, setFilters] = useState<WeatherFilters>({});
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string>('');
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout | null>(null);
 
   const fetchProperties = async (currentFilters = filters) => {
     setLoading(true);
@@ -73,6 +74,18 @@ export default function Home() {
     }
   };
 
+  const debouncedFetchProperties = useCallback((newFilters: WeatherFilters) => {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+    
+    const timer = setTimeout(() => {
+      fetchProperties(newFilters);
+    }, 500); // 500ms delay
+    
+    setDebounceTimer(timer);
+  }, [debounceTimer]);
+
   useEffect(() => {
     fetchProperties();
   }, []);
@@ -93,7 +106,7 @@ export default function Home() {
           onChange={(newFilters) => {
             console.log('New filters:', newFilters);
             setFilters(newFilters);
-            fetchProperties(newFilters);
+            debouncedFetchProperties(newFilters);
           }}
         />
         
